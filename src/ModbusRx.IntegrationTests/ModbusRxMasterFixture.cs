@@ -216,8 +216,10 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Reads the coils.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+    /// Task
     [Fact]
-    public virtual async void ReadCoils()
+    public virtual async Task ReadCoils()
     {
         var coils = await Master!.ReadCoilsAsync(SlaveAddress, 2048, 8);
         Assert.Equal(new bool[] { false, false, false, false, false, false, false, false }, coils);
@@ -226,8 +228,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Reads the inputs.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void ReadInputs()
+    public virtual async Task ReadInputs()
     {
         var inputs = await Master!.ReadInputsAsync(SlaveAddress, 150, 3);
         Assert.Equal(new bool[] { false, false, false }, inputs);
@@ -236,8 +239,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Reads the holding registers.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void ReadHoldingRegisters()
+    public virtual async Task ReadHoldingRegisters()
     {
         var registers = await Master!.ReadHoldingRegistersAsync(SlaveAddress, 104, 2);
         Assert.Equal(new ushort[] { 0, 0 }, registers);
@@ -246,8 +250,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Reads the input registers.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void ReadInputRegisters()
+    public virtual async Task ReadInputRegisters()
     {
         var registers = await Master!.ReadInputRegistersAsync(SlaveAddress, 104, 2);
         Assert.Equal(new ushort[] { 0, 0 }, registers);
@@ -256,8 +261,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Writes the single coil.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void WriteSingleCoil()
+    public virtual async Task WriteSingleCoil()
     {
         var coilValue = await Master!.ReadCoilsAsync(SlaveAddress, 10, 1);
         await Master.WriteSingleCoilAsync(SlaveAddress, 10, !coilValue[0]);
@@ -269,8 +275,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Writes the single register.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void WriteSingleRegister()
+    public virtual async Task WriteSingleRegister()
     {
         const ushort testAddress = 200;
         const ushort testValue = 350;
@@ -285,8 +292,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Writes the multiple registers.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void WriteMultipleRegisters()
+    public virtual async Task WriteMultipleRegisters()
     {
         const ushort testAddress = 120;
         var testValues = new ushort[] { 10, 20, 30, 40, 50 };
@@ -301,8 +309,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Writes the multiple coils.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void WriteMultipleCoils()
+    public virtual async Task WriteMultipleCoils()
     {
         const ushort testAddress = 200;
         var testValues = new bool[] { true, false, true, false, false, false, true, false, true, false };
@@ -317,8 +326,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Reads the maximum number of holding registers.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void ReadMaximumNumberOfHoldingRegisters()
+    public virtual async Task ReadMaximumNumberOfHoldingRegisters()
     {
         var registers = await Master!.ReadHoldingRegistersAsync(SlaveAddress, 104, 125);
         Assert.Equal(125, registers.Length);
@@ -327,8 +337,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Reads the write multiple registers.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void ReadWriteMultipleRegisters()
+    public virtual async Task ReadWriteMultipleRegisters()
     {
         const ushort startReadAddress = 120;
         const ushort numberOfPointsToRead = 5;
@@ -346,8 +357,9 @@ public abstract class ModbusRxMasterFixture : IDisposable
     /// <summary>
     /// Simples the read registers performance test.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Fact]
-    public virtual async void SimpleReadRegistersPerformanceTest()
+    public virtual async Task SimpleReadRegistersPerformanceTest()
     {
         var retries = Master!.Transport!.Retries;
         Master.Transport!.Retries = 5;
