@@ -11,40 +11,36 @@ namespace ModbusRx.IO;
 /// <summary>
 ///     Refined Abstraction - http://en.wikipedia.org/wiki/Bridge_Pattern.
 /// </summary>
-internal class SvtAsciiTransport : ModbusSerialTransport
+internal class SvtAsciiTransport : SvtSerialTransport
 {
-    private const byte FrameHead1 = 0x3C;  // "<"
-    private const byte FrameHead2 = 0x28;  // "("
-    private const byte FrameTail1 = 0x29;  // ")"
-    private const byte FrameTail2 = 0x3E;  // ">"
-
     internal SvtAsciiTransport(IStreamResource streamResource)
         : base(streamResource) => Debug.Assert(streamResource is not null, "Argument streamResource cannot be null.");
 
-    internal override byte[] BuildMessageFrame(IModbusMessage message)
+    internal override byte[] BuildMessageFrame(ISvtMessage message)
     {
         var msgFrame = message.MessageFrame;
 
         var msgFrameAscii = ModbusUtility.GetAsciiBytes(msgFrame);
         var crcAscii = ModbusUtility.GetAsciiBytes(ModbusUtility.CalculateCrc(msgFrame));
-        var nlAscii = Encoding.UTF8.GetBytes(Modbus.NewLine.ToCharArray());
 
-        var frame = new MemoryStream(1 + msgFrameAscii.Length + crcAscii.Length + nlAscii.Length);
-        frame.WriteByte((byte)':');
+        var frame = new MemoryStream(2 + msgFrameAscii.Length + crcAscii.Length + 2);
+        frame.WriteByte((byte)Svt.FrameHead1);
+        frame.WriteByte((byte)Svt.FrameHead2);
         frame.Write(msgFrameAscii, 0, msgFrameAscii.Length);
         frame.Write(crcAscii, 0, crcAscii.Length);
-        frame.Write(nlAscii, 0, nlAscii.Length);
+        frame.WriteByte((byte)Svt.FrameTail1);
+        frame.WriteByte((byte)Svt.FrameTail2);
 
         return frame.ToArray();
     }
 
-    internal override bool ChecksumsMatch(IModbusMessage message, byte[] messageFrame) =>
-        ModbusUtility.CalculateLrc(message.MessageFrame) == messageFrame[^1];
+    internal override bool ChecksumsMatch(ISvtMessage message, byte[] messageFrame) =>
+        new byte[] { messageFrame[^2], messageFrame[^1] }.SequenceEqual(ModbusUtility.CalculateCrc(message.MessageFrame));
 
     internal override Task<byte[]> ReadRequest() =>
         ReadRequestResponse();
 
-    internal override Task<IModbusMessage> ReadResponse<T>() =>
+    internal override Task<ISvtMessage> ReadResponse<T>() =>
         CreateResponse<T>(ReadRequestResponse());
 
     internal async Task<byte[]> ReadRequestResponse()

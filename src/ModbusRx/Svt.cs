@@ -8,12 +8,25 @@ namespace ModbusRx;
 /// </summary>
 internal static class Svt
 {
+    // frame head 0x3C 0x28 frame tail 0x29 0x3E
+    public const byte FrameHead1 = 0x3C;  // "<"
+    public const byte FrameHead2 = 0x28;  // "("
+    public const byte FrameTail1 = 0x29;  // ")"
+    public const byte FrameTail2 = 0x3E;  // ">"
+
     // supported function codes
     public const ushort DiagnosticsReturnQueryData = 0;
     public const byte ReadDeviceId = 0x0020;
 
     public const int MaximumDiscreteRequestResponseSize = 2040;
     public const int MaximumRegisterRequestResponseSize = 127;
+
+    // supported extend codes
+    public const byte Read = 0x55;
+    public const byte Write = 0x66;
+    public const byte ReadSuccess = 0xAA;
+    public const byte WriteScueess = 0x88;
+    public const byte WriteFailed = 0x99;
 
     // modbus slave exception offset that is added to the function code, to flag an exception
     public const byte ExceptionOffset = 128;

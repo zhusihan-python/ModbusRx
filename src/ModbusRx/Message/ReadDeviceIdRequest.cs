@@ -9,7 +9,7 @@ namespace ModbusRx.Message;
 /// ReadCoilsInputsRequest.
 /// </summary>
 /// <seealso cref="ModbusRx.Message.AbstractSvtMessage" />
-/// <seealso cref="ModbusRx.Message.IModbusRequest" />
+/// <seealso cref="ModbusRx.Message.ISvtRequest" />
 public class ReadDeviceIdRequest : AbstractSvtMessage, ISvtRequest
 {
     /// <summary>
