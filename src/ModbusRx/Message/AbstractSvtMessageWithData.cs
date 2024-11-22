@@ -17,8 +17,8 @@ public abstract class AbstractSvtMessageWithData<TData> : AbstractSvtMessage
     {
     }
 
-    internal AbstractSvtMessageWithData(byte slaveAddress, byte functionCode, byte extendedCode)
-        : base(slaveAddress, functionCode, extendedCode)
+    internal AbstractSvtMessageWithData(ushort transactionId, byte slaveAddress, ushort functionCode, byte extendedCode)
+        : base(transactionId, slaveAddress, functionCode, extendedCode)
     {
     }
 

@@ -19,14 +19,12 @@ internal class SvtAsciiTransport : SvtSerialTransport
     internal override byte[] BuildMessageFrame(ISvtMessage message)
     {
         var msgFrame = message.MessageFrame;
+        var crcAscii = ModbusUtility.CalculateCrc(msgFrame);
 
-        var msgFrameAscii = ModbusUtility.GetAsciiBytes(msgFrame);
-        var crcAscii = ModbusUtility.GetAsciiBytes(ModbusUtility.CalculateCrc(msgFrame));
-
-        var frame = new MemoryStream(2 + msgFrameAscii.Length + crcAscii.Length + 2);
+        var frame = new MemoryStream(2 + msgFrame.Length + crcAscii.Length + 2);
         frame.WriteByte((byte)Svt.FrameHead1);
         frame.WriteByte((byte)Svt.FrameHead2);
-        frame.Write(msgFrameAscii, 0, msgFrameAscii.Length);
+        frame.Write(msgFrame, 0, msgFrame.Length);
         frame.Write(crcAscii, 0, crcAscii.Length);
         frame.WriteByte((byte)Svt.FrameTail1);
         frame.WriteByte((byte)Svt.FrameTail2);

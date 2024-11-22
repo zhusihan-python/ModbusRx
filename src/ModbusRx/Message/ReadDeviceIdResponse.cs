@@ -22,13 +22,14 @@ public class ReadDeviceIdResponse : AbstractSvtMessageWithData<DiscreteCollectio
     /// <summary>
     /// Initializes a new instance of the <see cref="ReadDeviceIdResponse"/> class.
     /// </summary>
+    /// <param name="transactionId">The transaction id.</param>
+    /// <param name="slaveAddress">The slave address.</param>
     /// <param name="functionCode">The function code.</param>
     /// <param name="extendCode">The function extend code.</param>
-    /// <param name="slaveAddress">The slave address.</param>
     /// <param name="byteCount">The byte count.</param>
     /// <param name="data">The data.</param>
-    public ReadDeviceIdResponse(byte functionCode, byte extendCode, byte slaveAddress, ushort byteCount, DiscreteCollection data)
-        : base(slaveAddress, functionCode, extendCode)
+    public ReadDeviceIdResponse(ushort transactionId, ushort functionCode, byte extendCode, byte slaveAddress, ushort byteCount, DiscreteCollection data)
+        : base(transactionId, slaveAddress, functionCode, extendCode)
     {
         ByteCount = byteCount;
         Data = data;

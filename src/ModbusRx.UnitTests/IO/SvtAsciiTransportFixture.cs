@@ -30,8 +30,8 @@ public class SvtAsciiTransportFixture
     [Fact]
     public void BuildMessageFrame()
     {
-        byte[] expected = { 58, 48, 50, 48, 49, 48, 48, 48, 48, 48, 48, 48, 49, 70, 67, 13, 10 };
-        var request = new ReadDeviceIdRequest(Svt.ReadDeviceId, Svt.Read, 2, 0, 1);
+        byte[] expected = { 0x3c, 0x28, 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, 0x20, 0x55, 0x00, 0x00, 0x1F, 0x17, 0x29, 0x3e };
+        var request = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
         var actual = new SvtAsciiTransport(StreamResource)
             .BuildMessageFrame(request);
 
@@ -47,7 +47,7 @@ public class SvtAsciiTransportFixture
     {
         var mock = new Mock<IStreamResource>(MockBehavior.Strict);
         var stream = mock.Object;
-        var transport = new ModbusAsciiTransport(stream);
+        var transport = new SvtAsciiTransport(stream);
         var calls = 0;
         var bytes = Encoding.ASCII.GetBytes(":110100130025B6\r\n");
 

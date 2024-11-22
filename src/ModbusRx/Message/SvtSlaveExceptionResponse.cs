@@ -24,12 +24,13 @@ public class SvtSlaveExceptionResponse : AbstractSvtMessage, ISvtMessage
     /// <summary>
     /// Initializes a new instance of the <see cref="SvtSlaveExceptionResponse"/> class.
     /// </summary>
+    /// <param name="transactionId">The transaction id.</param>
     /// <param name="slaveAddress">The slave address.</param>
     /// <param name="functionCode">The function code.</param>
     /// <param name="exceptionCode">The exception code.</param>
     /// <param name="extendedCode">The extend code.</param>
-    public SvtSlaveExceptionResponse(byte slaveAddress, ushort functionCode, byte extendedCode, byte exceptionCode)
-        : base(slaveAddress, functionCode, extendedCode) => SlaveExceptionCode = exceptionCode;
+    public SvtSlaveExceptionResponse(ushort transactionId, byte slaveAddress, ushort functionCode, byte extendedCode, byte exceptionCode)
+        : base(transactionId, slaveAddress, functionCode, extendedCode) => SlaveExceptionCode = exceptionCode;
 
     /// <inheritdoc/>
     public override int MinimumFrameSize => 3;

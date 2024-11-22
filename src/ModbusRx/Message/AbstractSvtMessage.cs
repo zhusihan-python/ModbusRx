@@ -18,8 +18,8 @@ public abstract class AbstractSvtMessage
     /// Initializes a new instance of the <see cref="AbstractSvtMessage"/> class.
     ///     Abstract Svt message.
     /// </summary>
-    internal AbstractSvtMessage(byte slaveAddress, ushort functionCode, byte extendedCode)
-        => MessageImpl = new SvtMessageImpl(slaveAddress, functionCode, extendedCode);
+    internal AbstractSvtMessage(ushort transactionId, byte slaveAddress, ushort functionCode, byte extendedCode)
+        => MessageImpl = new SvtMessageImpl(transactionId, slaveAddress, functionCode, extendedCode);
 
     /// <summary>
     /// Gets or sets the transaction identifier.

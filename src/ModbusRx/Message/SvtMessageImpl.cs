@@ -17,8 +17,9 @@ internal class SvtMessageImpl
     {
     }
 
-    public SvtMessageImpl(byte slaveAddress, ushort functionCode, byte extendedCode)
+    public SvtMessageImpl(ushort transactionId, byte slaveAddress, ushort functionCode, byte extendedCode)
     {
+        TransactionId = transactionId;
         SlaveAddress = slaveAddress;
         FunctionCode = functionCode;
         ExtendedCode = extendedCode;
@@ -40,13 +41,9 @@ internal class SvtMessageImpl
 
     public byte? ExceptionCode { get; set; }
 
-    public ushort? NumberOfPoints { get; set; }
-
     public byte SlaveAddress { get; set; }
 
     public byte MasterAddress { get; set; }
-
-    public ushort? StartAddress { get; set; }
 
     public ushort? SubFunctionCode { get; set; }
 
