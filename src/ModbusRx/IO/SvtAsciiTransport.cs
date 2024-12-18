@@ -44,10 +44,10 @@ internal class SvtAsciiTransport : SvtSerialTransport
     internal async Task<byte[]> ReadRequestResponse()
     {
         // read message frame, removing frame start ':'
-        var frameHex = (await StreamResourceUtility.ReadLineAsync(StreamResource))[1..];
+        var frameHex = (await StreamResourceUtility.SvtReadLineAsync(StreamResource))[4..];
 
         // convert hex to bytes
-        var frame = ModbusUtility.HexToBytes(frameHex);
+        var frame = ModbusUtility.SvtHexToBytes(frameHex);
         Debug.WriteLine($"RX: {string.Join(", ", frame)}");
 
         if (frame.Length < 3)

@@ -25,4 +25,23 @@ internal static class StreamResourceUtility
 
         return result.ToString()[..(result.Length - Modbus.NewLine.Length)];
     }
+
+    internal static async Task<string> SvtReadLineAsync(IStreamResource stream)
+    {
+        var result = new StringBuilder();
+        var singleByteBuffer = new byte[1];
+
+        do
+        {
+            if (await stream.ReadAsync(singleByteBuffer, 0, 1) == 0)
+            {
+                continue;
+            }
+
+            result.Append(BitConverter.ToString(singleByteBuffer));
+        }
+        while (!result.ToString().EndsWith(Svt.NewLine));
+
+        return result.ToString()[..(result.Length - Svt.NewLine.Length)];
+    }
 }

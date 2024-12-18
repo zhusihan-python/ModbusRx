@@ -17,6 +17,7 @@ internal static class Svt
     // supported function codes
     public const ushort DiagnosticsReturnQueryData = 0;
     public const byte ReadDeviceId = 0x0020;
+    public const byte BaudRate = 0x0022;
 
     public const int MaximumDiscreteRequestResponseSize = 2040;
     public const int MaximumRegisterRequestResponseSize = 127;
@@ -62,5 +63,6 @@ internal static class Svt
     public const int WSACancelBlockingCall = 10004;
 
     // used by the ASCII tranport to indicate end of message
-    public const string NewLine = "\r\n";
+    // public const string NewLine = ")>";
+    public const string NewLine = "293E";
 }

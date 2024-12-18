@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Chris Pulman. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ModbusRx.IO;
@@ -49,7 +51,8 @@ public class SvtAsciiTransportFixture
         var stream = mock.Object;
         var transport = new SvtAsciiTransport(stream);
         var calls = 0;
-        var bytes = Encoding.ASCII.GetBytes(":110100130025B6\r\n");
+        var input = "<(\x00\x01\x00\x14\x03\x14\x12\x11\x00 \x99\x00\x01\x88\xc8\x06)>";
+        var bytes = input.Select(c => Convert.ToByte(c)).ToArray();
 
         mock.Setup(s => s.ReadAsync(It.Is<byte[]>(x => x.Length == 1), 0, 1).Result)
             .Returns((byte[] buffer, int offset, int count) =>
@@ -58,7 +61,8 @@ public class SvtAsciiTransportFixture
                 return 1;
             });
 
-        Assert.Equal(new byte[] { 17, 1, 0, 19, 0, 37, 182 }, await transport.ReadRequestResponse());
+        byte[] expected = { 0, 1, 0, 20, 3, 20, 18, 17, 0, 32, 153, 0, 1, 136, 200, 6 };
+        Assert.Equal(expected, await transport.ReadRequestResponse());
         mock.VerifyAll();
     }
 

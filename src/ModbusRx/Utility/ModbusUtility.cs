@@ -169,6 +169,30 @@ public static class ModbusUtility
     }
 
     /// <summary>
+    ///     Converts a hex string to a byte array.
+    ///     Every 2 digits represents one number.
+    /// </summary>
+    /// <param name="hex">The hex string.</param>
+    /// <returns>Array of bytes.</returns>
+    public static byte[] SvtHexToBytes(string hex)
+    {
+        if (hex == null)
+        {
+            throw new ArgumentNullException(nameof(hex));
+        }
+
+        if (hex.Length % 2 != 0)
+        {
+            throw new FormatException(Resources.HexCharacterCountNotEven);
+        }
+
+        var byteArray = Enumerable.Range(0, hex.Length / 2)
+                          .Select(i => Convert.ToByte(hex.Substring(i * 2, 2), 16))
+                          .ToArray();
+        return byteArray;
+    }
+
+    /// <summary>
     ///     Calculate Longitudinal Redundancy Check.
     /// </summary>
     /// <param name="data">The data used in LRC.</param>
