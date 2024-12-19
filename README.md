@@ -111,7 +111,7 @@ Modbus command. Address starts from 1 to 65535.
  
 
 Remarks 
-“slave” is defined by ModbusSlave and create slave connection. For example: To create TCP 
+“slave?is defined by ModbusSlave and create slave connection. For example: To create TCP 
 slave connection, syntax is = Create.TcpIpSlave("127.0.0.1"). 
 
 
@@ -141,3 +141,24 @@ Performs application-defined tasks associated with freeing, releasing, or resett
 unmanaged resources. 
 
 
+SVT Protocol
+
+Ö¡Í·¹Ì¶¨2Î»£¬ÄÚÈİ¹Ì¶¨Îª0x3c 0x28£¬¼´b"<("£¬
+Ö¡ĞòºÅ¹Ì¶¨2Î»£¬ĞòºÅÎªµ±Ç°·¢ËÍĞ­ÒéÖ¡µÄĞòºÅ£¬ÓÉÖ÷Éè±¸Ö¸¶¨¡£´ÓÉè±¸ÔÚ»Ø¸´ÃüÁîÊ±£¬Ö¡ĞòºÅĞèÓë½ÓÊÕµ½µÄÃüÁîÖĞµÄ±£³ÖÒ»ÖÂ£¬
+Ö¡³¤¶È¹Ì¶¨2Î»£¬Ö¡³¤¶ÈÎª°üÀ¨Ö¡Í·Ö¡Î²ÔÚÄÚµÄÕû¸öÊı¾İÖ¡³¤¶È£¬
+µØÖ·³¤¶È¹Ì¶¨1Î»£¬µØÖ·×é³¤¶È¡£
+µØÖ·×é³¤¶ÈxÎ»£¬²»¹Ì¶¨£¬³¤¶ÈÎªµØÖ·×é³¤¶ÈµÄÖµx£¬
+ÃüÁîÂë¹Ì¶¨2Î»£¬ÄÚÈİÎª²Ù×÷Éè±¸µÄÃüÁî£¬
+ÃüÁîÀ©Õ¹Âë¹Ì¶¨1Î»£¬ÄÚÈİÓĞËÄ¸öÈ¡Öµ£¬0x55:¶Á£¬0xAA:¶Á»ØÓ¦£¬0x66£ºĞ´£¬0x99: Ğ´»ØÓ¦£¬
+Êı¾İ³¤¶È¹Ì¶¨2Î»£¬ÎªÊı¾İ¶ÎµÄ³¤¶È£¬
+Êı¾İ¶ÎyÎ»£¬²»¹Ì¶¨£¬³¤¶ÈÎªÊı¾İ³¤¶ÈµÄÖµy£¬
+CRCĞ£Ñé¹Ì¶¨2Î»£¬¼ìÑéÄÚÈİÎªÖ¡ĞòºÅÖÁÊı¾İ¶ÎËùÓĞÄÚÈİ£¬²»°üÀ¨Ö¡Í·ºÍÖ¡Î²£¬
+Ö¡Î²¹Ì¶¨2Î»£¬ÄÚÈİ¹Ì¶¨Îª0x29 0x3e£¬¼´b")>"
+
+ProtocolDataUnit = FunctionCode + ExtendedCode + ByteCount + Data  
+                   ÃüÁîÂë + ÃüÁîÀ©Õ¹Âë + Êı¾İ³¤¶È + Êı¾İ¶Î
+MessageFrame = TransactionId + FrameLength + AddressLength + SlaveAddress + MasterAddress + ProtocolDataUnit
+				Ö¡ĞòºÅ + Ö¡³¤¶È + µØÖ·×é³¤¶È + Ô´µØÖ· + Ä¿±êµØÖ· + ÃüÁîÂë + ÃüÁîÀ©Õ¹Âë + Êı¾İ³¤¶È + Êı¾İ¶Î
+
+Ö¡Í·	Ö¡ĞòºÅ	Ö¡³¤¶È	µØÖ·³¤¶È  µØÖ·×é  ÃüÁîÂë	À©Õ¹Âë	Êı¾İ³¤¶È	Êı¾İÄÚÈİ	CRCĞ£Ñé	  Ö¡Î²
+3C 28	00 01	00 13	  02	   11 12  00 20	     66	     00 01	     01	         BB 0C	  29 3E
