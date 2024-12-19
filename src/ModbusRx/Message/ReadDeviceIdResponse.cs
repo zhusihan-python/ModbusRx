@@ -52,7 +52,7 @@ public class ReadDeviceIdResponse : AbstractSvtMessageWithData<DiscreteCollectio
 
     /// <inheritdoc/>
     public override string ToString() =>
-        $"Read {Data.Count} {(FunctionCode == Modbus.ReadInputs ? "inputs" : "coils")} - {Data}.";
+        $"Read {Data.Count} inputs - {Data}.";
 
     /// <inheritdoc/>
     protected override void InitializeUnique(byte[] frame)

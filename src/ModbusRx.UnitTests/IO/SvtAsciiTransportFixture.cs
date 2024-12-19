@@ -75,9 +75,9 @@ public class SvtAsciiTransportFixture
     {
         var mock = new Mock<IStreamResource>(MockBehavior.Strict);
         var stream = mock.Object;
-        var transport = new ModbusAsciiTransport(stream);
+        var transport = new SvtAsciiTransport(stream);
         var calls = 0;
-        var bytes = Encoding.ASCII.GetBytes(":10\r\n");
+        var bytes = Encoding.ASCII.GetBytes("<(\x00)>");
 
         mock.Setup(s => s.ReadAsync(It.Is<byte[]>(x => x.Length == 1), 0, 1).Result)
             .Returns((byte[] buffer, int offset, int count) =>
@@ -96,9 +96,10 @@ public class SvtAsciiTransportFixture
     [Fact]
     public void ChecksumsMatchSucceed()
     {
-        var transport = new ModbusAsciiTransport(StreamResource);
-        var message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 37);
-        byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 182 };
+        byte[] expected = { 0x3c, 0x28, 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, 0x20, 0x55, 0x00, 0x00, 0x1F, 0x17, 0x29, 0x3e };
+        var transport = new SvtAsciiTransport(StreamResource);
+        var message = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
+        byte[] frame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, Svt.ReadDeviceId, 0x55, 0x00, 0x00, 0x1F, 0x17 };
 
         Assert.True(transport.ChecksumsMatch(message, frame));
     }
@@ -109,9 +110,9 @@ public class SvtAsciiTransportFixture
     [Fact]
     public void ChecksumsMatchFail()
     {
-        var transport = new ModbusAsciiTransport(StreamResource);
-        var message = new ReadCoilsInputsRequest(Modbus.ReadCoils, 17, 19, 37);
-        byte[] frame = { 17, Modbus.ReadCoils, 0, 19, 0, 37, 181 };
+        var transport = new SvtAsciiTransport(StreamResource);
+        var message = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
+        byte[] frame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, Svt.ReadDeviceId, 0x55, 0x00, 0x00, 0x1F, 0x11 };
 
         Assert.False(transport.ChecksumsMatch(message, frame));
     }
