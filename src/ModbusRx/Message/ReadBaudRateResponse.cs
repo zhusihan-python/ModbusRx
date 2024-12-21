@@ -7,33 +7,33 @@ using ModbusRx.Unme.Common;
 namespace ModbusRx.Message;
 
 /// <summary>
-/// ReadDeviceIdResponse.
+/// ReadBaudRateResponse.
 /// </summary>
 /// <seealso cref="ModbusRx.Message.ISvtMessage" />
-public class ReadDeviceIdResponse : AbstractSvtMessageWithData<SvtDataCollection>, ISvtMessage
+public class ReadBaudRateResponse : AbstractSvtMessageWithData<SvtDataCollection>, ISvtMessage
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReadDeviceIdResponse"/> class.
+    /// Initializes a new instance of the <see cref="ReadBaudRateResponse"/> class.
     /// </summary>
-    public ReadDeviceIdResponse()
+    public ReadBaudRateResponse()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReadDeviceIdResponse"/> class.
+    /// Initializes a new instance of the <see cref="ReadBaudRateResponse"/> class.
     /// </summary>
     /// <param name="transactionId">The transaction id.</param>
     /// <param name="functionCode">The function code.</param>
     /// <param name="extendCode">The function extend code.</param>
     /// <param name="masterAddress">The byte count.</param>
     /// <param name="slaveAddress">The slave address.</param>
-    /// <param name="byteCount">The byte count of data.</param>
+    /// <param name="byteCount">The data byte count.</param>
     /// <param name="data">The data.</param>
-    public ReadDeviceIdResponse(ushort transactionId, ushort functionCode, byte extendCode, byte masterAddress, byte slaveAddress, byte byteCount, SvtDataCollection data)
+    public ReadBaudRateResponse(ushort transactionId, ushort functionCode, byte extendCode, byte masterAddress, byte slaveAddress, ushort byteCount, SvtDataCollection data)
         : base(transactionId, slaveAddress, functionCode, extendCode)
     {
-        Data = data;
         ByteCount = byteCount;
+        Data = data;
         MasterAddress = masterAddress;
     }
 
@@ -54,7 +54,7 @@ public class ReadDeviceIdResponse : AbstractSvtMessageWithData<SvtDataCollection
 
     /// <inheritdoc/>
     public override string ToString() =>
-        $"Read {Data.Count} inputs - {Data}.";
+       $"Read {Data.Count} inputs - {Data}.";
 
     /// <inheritdoc/>
     protected override void InitializeUnique(byte[] frame)

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Chris Pulman. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.Net;
-using System.Transactions;
 using ModbusRx.Data;
 
 namespace ModbusRx.Message;
@@ -102,9 +100,12 @@ internal class SvtMessageImpl
         }
 
         TransactionId = (ushort)((frame[0] << 8) | frame[1]);
+        TransactionLength = (ushort)((frame[2] << 8) | frame[3]);
+        AddressLength = frame[4];
         SlaveAddress = frame[5];
         MasterAddress = frame[6];
         FunctionCode = (ushort)((frame[7] << 8) | frame[8]);
         ExtendedCode = frame[9];
+        ByteCount = (ushort)((frame[10] << 8) | frame[11]);
     }
 }
