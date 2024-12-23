@@ -19,8 +19,8 @@ internal static class Svt
     public const byte ReadDeviceId = 0x0020;
     public const byte BaudRate = 0x0022;
 
-    public const int MaximumDiscreteRequestResponseSize = 2040;
-    public const int MaximumRegisterRequestResponseSize = 127;
+    public const int MaximumDiscreteRequestResponseSize = 65535;
+    public const int MaximumRegisterRequestResponseSize = 4095;
 
     // supported extend codes
     public const byte Read = 0x55;
