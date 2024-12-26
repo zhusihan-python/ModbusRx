@@ -18,6 +18,7 @@ internal static class Svt
     public const ushort DiagnosticsReturnQueryData = 0;
     public const byte ReadDeviceId = 0x0020;
     public const byte BaudRate = 0x0022;
+    public const byte Diagnostics = 0x0026;
 
     public const int MaximumDiscreteRequestResponseSize = 65535;
     public const int MaximumRegisterRequestResponseSize = 4095;
