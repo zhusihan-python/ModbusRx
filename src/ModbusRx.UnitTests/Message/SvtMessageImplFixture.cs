@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Linq;
 using ModbusRx.Message;
 using Xunit;
 
@@ -63,7 +64,8 @@ public class SvtMessageImplFixture
     public void ProtocolDataUnit()
     {
         var messageImpl = new SvtMessageImpl(0x0001, 0x11, Svt.BaudRate, Svt.Read);
-        byte[] expectedResult = { 0x00, Svt.BaudRate, Svt.Read, 0x00, 0x00 };
+        var reverseBytes = BitConverter.GetBytes(Svt.BaudRate).Reverse().ToArray();
+        var expectedResult = reverseBytes.Concat(new byte[] { Svt.Read, 0x00, 0x00 }).ToArray();
         Assert.Equal(expectedResult, messageImpl.ProtocolDataUnit);
     }
 
@@ -74,7 +76,7 @@ public class SvtMessageImplFixture
     public void MessageFrame()
     {
         var messageImpl = new SvtMessageImpl(0x0001, 0x11, Svt.BaudRate, Svt.Read);
-        byte[] expectedMessageFrame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x00, 0x11, 0x00, Svt.BaudRate, Svt.Read, 0x00, 0x00 };
+        byte[] expectedMessageFrame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x00, 0x11, 0x00, 0x22, Svt.Read, 0x00, 0x00 };
         Assert.Equal(expectedMessageFrame, messageImpl.MessageFrame);
     }
 }

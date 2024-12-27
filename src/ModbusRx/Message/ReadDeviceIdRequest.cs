@@ -25,7 +25,7 @@ public class ReadDeviceIdRequest : AbstractSvtMessage, ISvtRequest
     /// <param name="masterAddress">The master address.</param>
     /// <param name="slaveAddress">The slave address.</param>
     /// <param name="transactionId">The transaction id.</param>
-    public ReadDeviceIdRequest(ushort transactionId, byte functionCode, byte extendCode, byte masterAddress, byte slaveAddress)
+    public ReadDeviceIdRequest(ushort transactionId, ushort functionCode, byte extendCode, byte masterAddress, byte slaveAddress)
         : base(transactionId, slaveAddress, functionCode, extendCode)
     {
         MasterAddress = masterAddress;
