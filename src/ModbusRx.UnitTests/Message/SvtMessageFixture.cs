@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Chris Pulman. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Linq;
 using System.Reflection;
 using ModbusRx.Message;
@@ -20,7 +21,8 @@ public class SvtMessageFixture
     public void ProtocolDataUnitReadDeviceIdRequest()
     {
         AbstractSvtMessage message = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
-        byte[] expectedResult = { 0x00, Svt.ReadDeviceId, Svt.Read, 0x00, 0x00 };
+        var reverseBytes = BitConverter.GetBytes(Svt.ReadDeviceId).Reverse().ToArray();
+        var expectedResult = reverseBytes.Concat(new byte[] { Svt.Read, 0x00, 0x00 }).ToArray();
         Assert.Equal(expectedResult, message.ProtocolDataUnit);
     }
 
@@ -31,7 +33,7 @@ public class SvtMessageFixture
     public void MessageFrameReadDeviceIdRequest()
     {
         AbstractSvtMessage message = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
-        byte[] expectedMessageFrame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, Svt.ReadDeviceId, Svt.Read, 0x00, 0x00 };
+        byte[] expectedMessageFrame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, 0x20, Svt.Read, 0x00, 0x00 };
         Assert.Equal(expectedMessageFrame, message.MessageFrame);
     }
 
