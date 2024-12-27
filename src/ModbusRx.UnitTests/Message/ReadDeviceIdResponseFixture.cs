@@ -19,8 +19,8 @@ public class ReadDeviceIdResponseFixture
     [Fact]
     public void CreateReadDeviceIdResponse()
     {
-        var response = new ReadDeviceIdResponse(0x0001, Svt.ReadDeviceId, Svt.ReadSuccess, 0x12, 0x11, 5, new SvtDataCollection(new byte[] { 1, 2, 3, 4, 5 }));
-        Assert.Equal(Svt.ReadDeviceId, response.FunctionCode);
+        var response = new ReadDeviceIdResponse(0x0001, Svt.DeviceId, Svt.ReadSuccess, 0x12, 0x11, 5, new SvtDataCollection(new byte[] { 1, 2, 3, 4, 5 }));
+        Assert.Equal(Svt.DeviceId, response.FunctionCode);
         Assert.Equal(0x11, response.SlaveAddress);
         Assert.Equal(5, response.ByteCount);
         var col = new SvtDataCollection(new byte[] { 1, 2, 3, 4, 5 });
@@ -48,7 +48,7 @@ public class ReadDeviceIdResponseFixture
     [Fact]
     public void ToString_DeviceId()
     {
-        var response = new ReadDeviceIdResponse(0x0001, Svt.ReadDeviceId, Svt.ReadSuccess, 0x12, 0x11, 5, new SvtDataCollection(new byte[] { 1, 2, 3, 4, 5 }));
+        var response = new ReadDeviceIdResponse(0x0001, Svt.DeviceId, Svt.ReadSuccess, 0x12, 0x11, 5, new SvtDataCollection(new byte[] { 1, 2, 3, 4, 5 }));
 
         Assert.Equal("Read 5 inputs - {01, 02, 03, 04, 05}.", response.ToString());
     }

@@ -17,8 +17,8 @@ public class ReadDeviceIdRequestFixture
     [Fact]
     public void CreateReadDeviceIdRequest()
     {
-        var request = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
-        Assert.Equal(Svt.ReadDeviceId, request.FunctionCode);
+        var request = new ReadDeviceIdRequest(0x0001, Svt.DeviceId, Svt.Read, 0x12, 0x11);
+        Assert.Equal(Svt.DeviceId, request.FunctionCode);
         Assert.Equal(0x01, request.TransactionId);
         Assert.Equal(0x12, request.MasterAddress);
         Assert.Equal(0x11, request.SlaveAddress);
@@ -43,7 +43,7 @@ public class ReadDeviceIdRequestFixture
     [Fact]
     public void ToString_ReadDeviceIdRequest()
     {
-        var request = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
+        var request = new ReadDeviceIdRequest(0x0001, Svt.DeviceId, Svt.Read, 0x12, 0x11);
 
         Assert.Equal("Read 0x20 starting at address 18.", request.ToString());
     }

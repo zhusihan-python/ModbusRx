@@ -20,8 +20,8 @@ public class SvtMessageFixture
     [Fact]
     public void ProtocolDataUnitReadDeviceIdRequest()
     {
-        AbstractSvtMessage message = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
-        var reverseBytes = BitConverter.GetBytes(Svt.ReadDeviceId).Reverse().ToArray();
+        AbstractSvtMessage message = new ReadDeviceIdRequest(0x0001, Svt.DeviceId, Svt.Read, 0x12, 0x11);
+        var reverseBytes = BitConverter.GetBytes(Svt.DeviceId).Reverse().ToArray();
         var expectedResult = reverseBytes.Concat(new byte[] { Svt.Read, 0x00, 0x00 }).ToArray();
         Assert.Equal(expectedResult, message.ProtocolDataUnit);
     }
@@ -32,7 +32,7 @@ public class SvtMessageFixture
     [Fact]
     public void MessageFrameReadDeviceIdRequest()
     {
-        AbstractSvtMessage message = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
+        AbstractSvtMessage message = new ReadDeviceIdRequest(0x0001, Svt.DeviceId, Svt.Read, 0x12, 0x11);
         byte[] expectedMessageFrame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, 0x20, Svt.Read, 0x00, 0x00 };
         Assert.Equal(expectedMessageFrame, message.MessageFrame);
     }

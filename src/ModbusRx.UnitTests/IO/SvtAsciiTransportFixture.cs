@@ -33,7 +33,7 @@ public class SvtAsciiTransportFixture
     public void BuildMessageFrame()
     {
         byte[] expected = { 0x3c, 0x28, 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, 0x20, 0x55, 0x00, 0x00, 0x1F, 0x17, 0x29, 0x3e };
-        var request = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
+        var request = new ReadDeviceIdRequest(0x0001, Svt.DeviceId, Svt.Read, 0x12, 0x11);
         var actual = new SvtAsciiTransport(StreamResource)
             .BuildMessageFrame(request);
 
@@ -98,7 +98,7 @@ public class SvtAsciiTransportFixture
     {
         byte[] expected = { 0x3c, 0x28, 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, 0x20, 0x55, 0x00, 0x00, 0x1F, 0x17, 0x29, 0x3e };
         var transport = new SvtAsciiTransport(StreamResource);
-        var message = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
+        var message = new ReadDeviceIdRequest(0x0001, Svt.DeviceId, Svt.Read, 0x12, 0x11);
         byte[] frame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, 0x20, 0x55, 0x00, 0x00, 0x1F, 0x17 };
 
         Assert.True(transport.ChecksumsMatch(message, frame));
@@ -111,7 +111,7 @@ public class SvtAsciiTransportFixture
     public void ChecksumsMatchFail()
     {
         var transport = new SvtAsciiTransport(StreamResource);
-        var message = new ReadDeviceIdRequest(0x0001, Svt.ReadDeviceId, Svt.Read, 0x12, 0x11);
+        var message = new ReadDeviceIdRequest(0x0001, Svt.DeviceId, Svt.Read, 0x12, 0x11);
         byte[] frame = { 0x00, 0x01, 0x00, 0x12, 0x02, 0x12, 0x11, 0x00, 0x20, 0x55, 0x00, 0x00, 0x1F, 0x11 };
 
         Assert.False(transport.ChecksumsMatch(message, frame));

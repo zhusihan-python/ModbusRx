@@ -28,7 +28,7 @@ public abstract class SvtMaster : SvtDevice, ISvtMaster
     {
         var request = new ReadDeviceIdRequest(
             transactionId,
-            Svt.ReadDeviceId,
+            Svt.DeviceId,
             Svt.Read,
             masterAddress,
             slaveAddress);

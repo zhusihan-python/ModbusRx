@@ -16,10 +16,15 @@ internal static class Svt
 
     // supported function codes
     public const ushort DiagnosticsReturnQueryData = 0;
-    public const ushort ReadDeviceId = 0x0020;
+    public const ushort DeviceId = 0x0020;
     public const ushort BaudRate = 0x0022;
     public const ushort Diagnostics = 0x0026;
     public const ushort BakeParams = 0x0338;
+    public const ushort ScanTrigger = 0x033A;
+    public const ushort ScanResult = 0x033B;
+    public const ushort HeartBeat = 0x033F;
+    public const ushort SystemStatus = 0x0340;
+    public const ushort FlowAction = 0x0341;
 
     public const int MaximumDiscreteRequestResponseSize = 65535;
     public const int MaximumRegisterRequestResponseSize = 4095;
