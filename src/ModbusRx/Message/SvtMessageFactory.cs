@@ -4,7 +4,7 @@
 namespace ModbusRx.Message;
 
 /// <summary>
-///     Modbus message factory.
+///     Svt message factory.
 /// </summary>
 public static class SvtMessageFactory
 {
@@ -14,11 +14,11 @@ public static class SvtMessageFactory
     private const int MinRequestFrameLength = 3;
 
     /// <summary>
-    ///     Create a Modbus message.
+    ///     Create a Svt message.
     /// </summary>
-    /// <typeparam name="T">Modbus message type.</typeparam>
-    /// <param name="frame">Bytes of Modbus frame.</param>
-    /// <returns>New Modbus message based on type and frame bytes.</returns>
+    /// <typeparam name="T">Svt message type.</typeparam>
+    /// <param name="frame">Bytes of Svt frame.</param>
+    /// <returns>New Svt message based on type and frame bytes.</returns>
     public static T CreateSvtMessage<T>(byte[] frame)
         where T : ISvtMessage, new()
     {
@@ -29,10 +29,10 @@ public static class SvtMessageFactory
     }
 
     /// <summary>
-    ///     Create a Modbus request.
+    ///     Create a Svt request.
     /// </summary>
-    /// <param name="frame">Bytes of Modbus frame.</param>
-    /// <returns>Modbus request.</returns>
+    /// <param name="frame">Bytes of Svt frame.</param>
+    /// <returns>Svt request.</returns>
     public static ISvtMessage CreateSvtRequest(byte[] frame)
     {
         if (frame?.Length < MinRequestFrameLength)
@@ -41,9 +41,12 @@ public static class SvtMessageFactory
         }
 
         var functionCode = (ushort)((frame![7] << 8) | frame![8]);
-        return functionCode switch
+        var extendCode = frame![9];
+        return (functionCode, extendCode) switch
         {
-            Modbus.ReadCoils or Modbus.ReadInputs => CreateSvtMessage<ReadDeviceIdRequest>(frame),
+            (Svt.DeviceId, Svt.Read) => CreateSvtMessage<ReadDeviceIdRequest>(frame),
+            (Svt.BaudRate, Svt.Read) => CreateSvtMessage<ReadBaudRateRequest>(frame),
+            (Svt.BaudRate, Svt.Write) => CreateSvtMessage<WriteBaudRateRequest>(frame),
             _ => throw new ArgumentException($"Unsupported function code {functionCode}", nameof(frame)),
         };
     }
